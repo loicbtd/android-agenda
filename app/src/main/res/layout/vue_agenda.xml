@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vue.Garage">
+    tools:context=".vue.Agenda">
 
     <ListView
-        android:id="@+id/vue_garage_liste_voiture"
+        android:id="@+id/vue_agenda_liste_devoir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
-        android:text="Ajouter une voiture"
-        app:layout_constraintTop_toBottomOf="@+id/vue_garage_liste_voiture"
+        android:text="Ajouter un devoir"
+        app:layout_constraintTop_toBottomOf="@+id/vue_agenda_liste_devoir"
         android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".vue.AjouterVoiture"></activity>
-        <activity android:name=".vue.Garage">
+        <activity android:name=".vue.AjouterDevoir"></activity>
+        <activity android:name=".vue.Agenda">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
