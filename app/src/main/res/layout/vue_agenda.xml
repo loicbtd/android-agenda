@@ -12,7 +12,7 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/vue_agenda_action_ajouter_devoir"
         android:layout_width="match_parent"
         android:text="Ajouter un devoir"
         app:layout_constraintTop_toBottomOf="@+id/vue_agenda_liste_devoir"

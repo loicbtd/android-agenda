@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
+
 public class DevoirDAO {
 
     private static DevoirDAO instance = null;
-    protected List<HashMap<String, String>> listeDevoir;
+    protected List<Devoir> listeDevoir;
 
     public static DevoirDAO getInstance() {
         if (null == instance) {
@@ -17,31 +19,31 @@ public class DevoirDAO {
     }
 
     public DevoirDAO() {
-        listeDevoir = new ArrayList<HashMap<String, String>>();
+        listeDevoir = new ArrayList<Devoir>();
         preparerListeDevoir();
     }
 
-    public List<HashMap<String, String>> recupererListeDevoir() {
+    public List<Devoir> recupererListeDevoir() {
         return listeDevoir;
     }
 
+    public List<HashMap<String, String>> recupererListeDevoirPourAdapteur() {
+        List<HashMap<String, String>> listeDevoirPourAdapteur =
+                new ArrayList<HashMap<String, String>>();
+
+        for (Devoir devoir : listeDevoir) {
+            listeDevoirPourAdapteur.add(devoir.obtenirDevoirPourAdapteur());
+        }
+        return listeDevoirPourAdapteur;
+    }
+
+    public void ajouterDevoir(Devoir devoir) {
+        listeDevoir.add(devoir);
+    }
+
     private void preparerListeDevoir() {
-
-        HashMap<String, String> devoir;
-
-        devoir = new HashMap<String, String>();
-        devoir.put("matière", "Anglais");
-        devoir.put("sujet", "Faire article de journal");
-        listeDevoir.add(devoir);
-
-        devoir = new HashMap<String, String>();
-        devoir.put("matière", "Android");
-        devoir.put("sujet", "Faire une release");
-        listeDevoir.add(devoir);
-
-        devoir = new HashMap<String, String>();
-        devoir.put("matière", "Mondes virtuels");
-        devoir.put("sujet", "Finir l'animation");
-        listeDevoir.add(devoir);
+        listeDevoir.add(new Devoir("Anglais", "Faire article de journal", 1));
+        listeDevoir.add(new Devoir("Android", "Faire une release", 2));
+        listeDevoir.add(new Devoir("Mondes virtuels", "Finir le blueprint", 3));
     }
 }
