@@ -1,3 +1,3 @@
-# Projet Android Garage
+# Projet Android Agenda
 * Loïc Bertrand
 * lien video
