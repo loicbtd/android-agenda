@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.qc.cgmatane.devoir_android_2019_loicbtd.vue.AjouterDevoir">
+    tools:context="ca.qc.cgmatane.devoir_android_2019_loicbtd.vue.ModifierDevoir">
 
     <Button
-        android:id="@+id/vue_ajouter_devoir_action_enregistrer"
+        android:id="@+id/vue_modifier_devoir_action_enregistrer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="118dp"
@@ -26,9 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="25dp"
-        android:text="Page ajouter devoir"
+        android:text="Page modifier devoir"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/vue_ajouter_devoir_champ_sujet"
+        app:layout_constraintBottom_toTopOf="@+id/vue_modifier_devoir_champ_sujet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,10 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="Titre"
-        app:layout_constraintBottom_toTopOf="@+id/vue_ajouter_devoir_champ_matiere"
+        app:layout_constraintBottom_toTopOf="@+id/vue_modifier_devoir_champ_matiere"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vue_ajouter_devoir_champ_sujet" />
+        app:layout_constraintTop_toBottomOf="@+id/vue_modifier_devoir_champ_sujet" />
 
     <TextView
         android:id="@+id/textView7"
@@ -50,13 +50,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="87dp"
         android:text="Auteur"
-        app:layout_constraintBottom_toTopOf="@+id/vue_ajouter_devoir_action_enregistrer"
+        app:layout_constraintBottom_toTopOf="@+id/vue_modifier_devoir_action_enregistrer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vue_ajouter_devoir_champ_matiere" />
+        app:layout_constraintTop_toBottomOf="@+id/vue_modifier_devoir_champ_matiere" />
 
     <EditText
-        android:id="@+id/vue_ajouter_devoir_champ_sujet"
+        android:id="@+id/vue_modifier_devoir_champ_sujet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <EditText
-        android:id="@+id/vue_ajouter_devoir_champ_matiere"
+        android:id="@+id/vue_modifier_devoir_champ_matiere"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

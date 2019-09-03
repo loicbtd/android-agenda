@@ -41,9 +41,25 @@ public class DevoirDAO {
         listeDevoir.add(devoir);
     }
 
+    public Devoir chercherDevoirParIdDevoir(int id_livre) {
+        for(Devoir livreRecherche : this.listeDevoir) {
+            if(livreRecherche.getId_devoir() == id_livre) return livreRecherche;
+        }
+        return null;
+    }
+
     private void preparerListeDevoir() {
         listeDevoir.add(new Devoir("Anglais", "Faire article de journal", 1));
         listeDevoir.add(new Devoir("Android", "Faire une release", 2));
         listeDevoir.add(new Devoir("Mondes virtuels", "Finir le blueprint", 3));
+    }
+
+    public void modifierDevoir(Devoir devoir) {
+        for (Devoir devoirRecherche : this.listeDevoir) {
+            if(devoirRecherche.getId_devoir() == devoir.getId_devoir()) {
+                devoirRecherche.setSujet(devoir.getSujet());
+                devoirRecherche.setMatiere(devoir.getMatiere());
+            }
+        }
     }
 }
