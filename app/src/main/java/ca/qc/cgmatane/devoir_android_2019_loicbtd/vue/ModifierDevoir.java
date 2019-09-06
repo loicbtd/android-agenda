@@ -55,5 +55,11 @@ public class ModifierDevoir extends AppCompatActivity {
         devoir.setSujet(vueModifierDevoirChampSujet.getText().toString());
 
         accesseurDevoir.modifierDevoir(devoir);
+
+        naviguerRetourBibliotheque();
+    }
+
+    private void naviguerRetourBibliotheque() {
+        this.finish();
     }
 }

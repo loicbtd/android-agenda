@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
@@ -41,16 +40,13 @@ public class AjouterDevoir extends AppCompatActivity {
     }
 
     private void enregistrerDevoir() {
-        Toast message = Toast.makeText(getApplicationContext(),
-                "Titre "+ vueAjouterDevoirChampMatiere.getText().toString(),
-                Toast.LENGTH_LONG);
-
-        message.show();
 
         accesseurDevoir = DevoirDAO.getInstance();
 
-        Devoir devoir = new Devoir(vueAjouterDevoirChampMatiere.getText().toString(),
-                vueAjouterDevoirChampSujet.getText().toString(), 0);
+        Devoir devoir = new Devoir(
+                vueAjouterDevoirChampMatiere.getText().toString(),
+                vueAjouterDevoirChampSujet.getText().toString(), 0
+        );
 
         accesseurDevoir.ajouterDevoir(devoir);
 

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
+import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.BaseDeDonnees;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
 
 public class Agenda extends AppCompatActivity {
@@ -36,6 +37,8 @@ public class Agenda extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_agenda);
 
+        BaseDeDonnees.getInstance(getApplicationContext());
+
         afficherTousLesDevoirs();
 
         vueAgendaListeDevoir.setOnItemClickListener(
@@ -54,12 +57,14 @@ public class Agenda extends AppCompatActivity {
                                 (HashMap<String, String>)
                                         vueAgendaListeDevoir.getItemAtPosition((int)positionItem);
 
-                        Intent intentionNaviguerModifierDevoir = new Intent(
+                        intentionNaviguerModifierDevoir = new Intent(
                                 Agenda.this,
                                 ModifierDevoir.class
                         );
-                        intentionNaviguerModifierDevoir.putExtra("id_devoir",
-                                devoir.get("id_devoir"));
+                        intentionNaviguerModifierDevoir.putExtra(
+                                "id_devoir",
+                                devoir.get("id_devoir")
+                        );
 
                         startActivityForResult(intentionNaviguerModifierDevoir,
                                 ACTIVITE_MODIFIER_DEVOIR);
@@ -76,7 +81,8 @@ public class Agenda extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivityForResult(intentionNaviguerAjouterDevoir, Agenda.ACTIVITE_AJOUTER_DEVOIR);
+                        startActivityForResult(intentionNaviguerAjouterDevoir,
+                                Agenda.ACTIVITE_AJOUTER_DEVOIR);
                     }
                 }
         );
@@ -89,18 +95,20 @@ public class Agenda extends AppCompatActivity {
 
         listeDevoirPourAdapteur = accesseurDevoir.recupererListeDevoirPourAdapteur();
 
-        SimpleAdapter adapteurVueListeDevoir = new SimpleAdapter(
+        SimpleAdapter adapteurVueAgendaListeDevoir = new SimpleAdapter(
                 this,
                 listeDevoirPourAdapteur,
                 android.R.layout.two_line_list_item,
                 new String[] {"matiere", "sujet"},
                 new int[] {android.R.id.text1, android.R.id.text2});
 
-        vueAgendaListeDevoir.setAdapter(adapteurVueListeDevoir);
+        vueAgendaListeDevoir.setAdapter(adapteurVueAgendaListeDevoir);
     }
 
     @Override
     protected void onActivityResult(int activite, int resultat, @Nullable Intent donnees) {
+        super.onActivityResult(activite, resultat, donnees);
+
         switch (activite) {
             case ACTIVITE_AJOUTER_DEVOIR:
                 afficherTousLesDevoirs();

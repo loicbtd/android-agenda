@@ -39,7 +39,7 @@ public class Devoir {
     }
 
     public HashMap<String, String> obtenirDevoirPourAdapteur() {
-        HashMap<String, String> devoirPourAdapteur = new HashMap<String, String>();
+        HashMap<String, String> devoirPourAdapteur = new HashMap<>();
         devoirPourAdapteur.put("matiere",this.matiere);
         devoirPourAdapteur.put("sujet",this.sujet);
         devoirPourAdapteur.put("id_devoir","" + this.id_devoir);
