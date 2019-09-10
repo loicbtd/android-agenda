@@ -27,6 +27,7 @@ public class BaseDeDonnees extends SQLiteOpenHelper implements BaseDeDonneesSQL 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(SQL_DETRUIRE_TABLE_DEVOIR);
         db.execSQL(SQL_CREER_TABLE_DEVOIR);
     }
 

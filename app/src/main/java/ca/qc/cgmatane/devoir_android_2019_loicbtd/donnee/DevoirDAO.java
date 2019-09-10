@@ -52,8 +52,8 @@ public class DevoirDAO implements DevoirSQL {
             int id_devoir = curseur.getInt(indexId_devoir);
             String matiere = curseur.getString(indexMatiere);
             String sujet = curseur.getString(indexSujet);
-//            LocalDateTime horaire = LocalDateTime.parse(curseur.getString(indexHoraire), formatter);
-            devoir = new Devoir(id_devoir, matiere, sujet, LocalDateTime.now());
+            LocalDateTime horaire = LocalDateTime.parse(curseur.getString(indexHoraire), formatter);
+            devoir = new Devoir(id_devoir, matiere, sujet, horaire);
             this.listeDevoir.add(devoir);
         }
         return listeDevoir;
@@ -72,11 +72,17 @@ public class DevoirDAO implements DevoirSQL {
         return listeDevoirPourAdapteur;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void ajouterDevoir(Devoir devoir) {
         SQLiteDatabase sqLiteDatabase = accesseurBaseDeDonnees.getWritableDatabase();
         SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement(SQL_INSERER_DEVOIR);
         sqLiteStatement.bindString(1, devoir.getMatiere());
         sqLiteStatement.bindString(2, devoir.getSujet());
+
+        DateTimeFormatter formateur = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String horaire = devoir.getHoraire().format(formateur);
+        sqLiteStatement.bindString(3, horaire);
+
         sqLiteStatement.execute();
     }
 
