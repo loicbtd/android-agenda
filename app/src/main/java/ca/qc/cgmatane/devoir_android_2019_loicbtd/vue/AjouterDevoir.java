@@ -2,10 +2,7 @@ package ca.qc.cgmatane.devoir_android_2019_loicbtd.vue;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
 
-import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
@@ -17,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
@@ -31,19 +28,17 @@ public class AjouterDevoir extends AppCompatActivity implements View.OnClickList
     protected TimePickerDialog selectionneurHoraire;
     protected DatePickerDialog selectionneurDate;
 
-
     protected DevoirDAO accesseurDevoir;
 
-    protected int annee;
-    protected int mois;
-    protected int jour;
-    protected int heure;
-    protected int minute;
+    LocalDateTime horaire;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_ajouter_devoir);
+
+        horaire = LocalDateTime.now();
 
         vueAjouterDevoirChampMatiere = (EditText)findViewById(R.id.vue_ajouter_devoir_champ_sujet);
         vueAjouterDevoirChampSujet = (EditText)findViewById(R.id.vue_ajouter_devoir_champ_sujet);
@@ -67,35 +62,40 @@ public class AjouterDevoir extends AppCompatActivity implements View.OnClickList
         vueAjouterDevoirActionChoisirHoraire.setOnClickListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View vue) {
-        final Calendar calendrier = Calendar.getInstance();
-        annee = calendrier.get(Calendar.YEAR);
-        mois = calendrier.get(Calendar.MONTH);
-        jour = calendrier.get(Calendar.DAY_OF_MONTH);
-        heure = calendrier.get(Calendar.HOUR_OF_DAY);
-        minute = calendrier.get(Calendar.MINUTE);
 
         selectionneurHoraire = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int h, int m) {
-                        heure = h;
-                        minute = m;
+                        horaire = LocalDateTime.of(horaire.getYear(),
+                                horaire.getMonthValue(),
+                                horaire.getDayOfMonth(),
+                                h,
+                                m
+                        );
+                        DateTimeFormatter formateur =
+                                DateTimeFormatter.ofPattern("dd/MM/dd à HH:mm");
+                        vueAjouterDevoirActionChoisirHoraire.setText(horaire.format(formateur));
                     }
-                }, heure, minute, false);
+                }, horaire.getHour(), horaire.getMinute(), false);
 
         selectionneurDate = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int a, int m, int j) {
-                        annee = a;
-                        mois = m;
-                        jour = j;
+                        horaire = LocalDateTime.of(a,
+                                m,
+                                j,
+                                horaire.getHour(),
+                                horaire.getMinute()
+                        );
 
                         selectionneurHoraire.show();
                     }
-                }, annee, mois, jour);
+                }, horaire.getYear(), horaire.getMonthValue(), horaire.getDayOfMonth());
 
         selectionneurDate.show();
     }
@@ -104,12 +104,11 @@ public class AjouterDevoir extends AppCompatActivity implements View.OnClickList
     private void enregistrerDevoir() {
 
         accesseurDevoir = DevoirDAO.getInstance();
-        // TODO : enlever la date en dure
         Devoir devoir = new Devoir(
                 0,
                 vueAjouterDevoirChampMatiere.getText().toString(),
                 vueAjouterDevoirChampSujet.getText().toString(),
-                LocalDateTime.now()
+                horaire
         );
 
         accesseurDevoir.ajouterDevoir(devoir);
