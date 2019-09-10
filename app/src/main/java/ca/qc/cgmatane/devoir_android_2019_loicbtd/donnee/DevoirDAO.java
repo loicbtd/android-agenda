@@ -35,7 +35,7 @@ public class DevoirDAO implements DevoirSQL {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public List<Devoir> listerDevoir() {
+    public List<Devoir> recupererListeDevoir() {
         Cursor curseur = accesseurBaseDeDonnees.getReadableDatabase()
                 .rawQuery(SQL_LISTER_DEVOIRS, null);
         this.listeDevoir.clear();
@@ -43,10 +43,10 @@ public class DevoirDAO implements DevoirSQL {
         Devoir devoir;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        int indexId_devoir = curseur.getColumnIndex("id_devoir");
-        int indexMatiere = curseur.getColumnIndex("matiere");
-        int indexSujet = curseur.getColumnIndex("sujet");
-        int indexHoraire = curseur.getColumnIndex("horaire");
+        int indexId_devoir = curseur.getColumnIndex(Devoir.CLE_ID_DEVOIR);
+        int indexMatiere = curseur.getColumnIndex(Devoir.CLE_MATIERE);
+        int indexSujet = curseur.getColumnIndex(Devoir.CLE_SUJET);
+        int indexHoraire = curseur.getColumnIndex(Devoir.CLE_HORAIRE);
 
         for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
             int id_devoir = curseur.getInt(indexId_devoir);
@@ -64,7 +64,7 @@ public class DevoirDAO implements DevoirSQL {
         List<HashMap<String, String>> listeDevoirPourAdapteur =
                 new ArrayList<>();
 
-        listerDevoir();
+        recupererListeDevoir();
 
         for (Devoir devoir : listeDevoir) {
             listeDevoirPourAdapteur.add(devoir.obtenirDevoirPourAdapteur());

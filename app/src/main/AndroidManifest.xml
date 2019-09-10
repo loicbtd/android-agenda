@@ -19,10 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <receiver
-                android:name=".util.EcouteurAlarme"
-                android:enabled="true"
-                android:process=":remote"></receiver>
+<!--            <receiver-->
+<!--                android:name=".util.EcouteurAlarme"-->
+<!--                android:enabled="true"-->
+<!--                android:process=":remote">-->
+<!--            </receiver>-->
         </activity>
     </application>
 
