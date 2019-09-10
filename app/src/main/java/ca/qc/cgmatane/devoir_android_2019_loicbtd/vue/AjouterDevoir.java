@@ -28,23 +28,12 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
 
     protected EditText vueAjouterDevoirChampMatiere;
     protected EditText vueAjouterDevoirChampSujet;
-//    protected Button vueAjouterDevoirActionChoisirHoraire;
-//    protected TimePickerDialog selectionneurHoraire;
-//    protected DatePickerDialog selectionneurDate;
+    protected Button vueAjouterDevoirActionChoisirHoraire;
 
     protected ControleurAjouterDevoir controleurAjouterDevoir = new ControleurAjouterDevoir(this);
 
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void enregistrerDevoir() {
-        // TODO : remplacer le LocalDateTime.now
-        Devoir devoir = new Devoir(
-                0,
-                vueAjouterDevoirChampMatiere.getText().toString(),
-                vueAjouterDevoirChampSujet.getText().toString(),
-                LocalDateTime.now()
-        );
-        controleurAjouterDevoir.actionEnregistrerDevoir(devoir);
+    public Button getVueAjouterDevoirActionChoisirHoraire() {
+        return this.vueAjouterDevoirActionChoisirHoraire;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -58,18 +47,20 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
 
         Button vueAjouterDevoirActionEnregistrerDevoir =
                 (Button)findViewById(R.id.vue_ajouter_devoir_action_enregistrer);
-
         vueAjouterDevoirActionEnregistrerDevoir.setOnClickListener(
                 view -> enregistrerDevoir()
         );
+
+        vueAjouterDevoirActionChoisirHoraire =
+                (Button)findViewById(R.id.vue_ajouter_devoir_action_choisir_horaire);
+        vueAjouterDevoirActionChoisirHoraire.setText("Choisir l'horaire");
+        vueAjouterDevoirActionChoisirHoraire.setOnClickListener(
+                view -> controleurAjouterDevoir.choisirHoraire()
+        );
+
+
         controleurAjouterDevoir.onCreate(getApplicationContext());
-
-//        vueAjouterDevoirActionChoisirHoraire =
-//                (Button)findViewById(R.id.vue_ajouter_devoir_action_choisir_horaire);
-//        vueAjouterDevoirActionChoisirHoraire.setText("Choisir l'horaire");
-//        vueAjouterDevoirActionChoisirHoraire.setOnClickListener(this);
     }
-
 
     @Override
     public void naviguerAgenda() {
@@ -82,5 +73,17 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
                 "Le devoir n'est pas valide.",
                 Toast.LENGTH_SHORT);
         message.show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void enregistrerDevoir() {
+        // TODO : remplacer le LocalDateTime.now
+        Devoir devoir = new Devoir(
+                0,
+                vueAjouterDevoirChampMatiere.getText().toString(),
+                vueAjouterDevoirChampSujet.getText().toString(),
+                LocalDateTime.now()
+        );
+        controleurAjouterDevoir.actionEnregistrerDevoir(devoir);
     }
 }

@@ -1,9 +1,11 @@
 package ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Build;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import androidx.annotation.RequiresApi;
@@ -22,7 +24,10 @@ public class ControleurAjouterDevoir implements Controleur  {
     private VueAjouterDevoir vue;
     private DevoirDAO accesseurDevoir;
 
-//    protected LocalDateTime horaire; TODO
+    protected TimePickerDialog selectionneurHoraire;
+    protected DatePickerDialog selectionneurDate;
+
+    protected LocalDateTime horaire;
 
 
     public ControleurAjouterDevoir(VueAjouterDevoir vue) {
@@ -62,6 +67,11 @@ public class ControleurAjouterDevoir implements Controleur  {
 
     @Override
     public void onActivityResult(int activite) {
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void choisirHoraire() {
+        //TODO:
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.O) TODO
