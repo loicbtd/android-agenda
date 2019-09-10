@@ -1,11 +1,15 @@
 package ca.qc.cgmatane.devoir_android_2019_loicbtd.vue;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.time.LocalDateTime;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
@@ -31,6 +35,7 @@ public class AjouterDevoir extends AppCompatActivity {
 
         vueAjouterDevoirActionEnregistrerDevoir.setOnClickListener(
                 new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View view) {
                         enregistrerDevoir();
@@ -39,13 +44,16 @@ public class AjouterDevoir extends AppCompatActivity {
         );
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void enregistrerDevoir() {
 
         accesseurDevoir = DevoirDAO.getInstance();
-
+        // TODO : enlever la date en dure
         Devoir devoir = new Devoir(
+                0,
                 vueAjouterDevoirChampMatiere.getText().toString(),
-                vueAjouterDevoirChampSujet.getText().toString(), 0
+                vueAjouterDevoirChampSujet.getText().toString(),
+                LocalDateTime.now()
         );
 
         accesseurDevoir.ajouterDevoir(devoir);
