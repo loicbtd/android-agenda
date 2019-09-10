@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".vue.ModifierDevoir"></activity>
+        <activity android:name=".vue.Alarme"></activity>
+        <activity android:name=".vue.ModifierDevoir" />
         <activity android:name=".vue.AjouterDevoir" />
         <activity android:name=".vue.Agenda">
             <intent-filter>
@@ -17,6 +18,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <receiver
+                android:name=".util.EcouteurAlarme"
+                android:enabled="true"
+                android:process=":remote"></receiver>
         </activity>
     </application>
 

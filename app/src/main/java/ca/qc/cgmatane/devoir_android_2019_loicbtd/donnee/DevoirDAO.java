@@ -92,12 +92,18 @@ public class DevoirDAO implements DevoirSQL {
         return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void modifierDevoir(Devoir devoir) {
         SQLiteDatabase sqLiteDatabase = accesseurBaseDeDonnees.getWritableDatabase();
         SQLiteStatement sqLiteStatement = sqLiteDatabase.compileStatement(SQL_MODIFIER_DEVOIR);
         sqLiteStatement.bindString(1, devoir.getMatiere());
         sqLiteStatement.bindString(2, devoir.getSujet());
-        sqLiteStatement.bindString(3, String.valueOf(devoir.getId_devoir()));
+
+        DateTimeFormatter formateur = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String horaire = devoir.getHoraire().format(formateur);
+        sqLiteStatement.bindString(3, horaire);
+
+        sqLiteStatement.bindString(4, String.valueOf(devoir.getId_devoir()));
         sqLiteStatement.execute();
     }
 }

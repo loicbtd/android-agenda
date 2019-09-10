@@ -30,7 +30,7 @@ public class AjouterDevoir extends AppCompatActivity implements View.OnClickList
 
     protected DevoirDAO accesseurDevoir;
 
-    LocalDateTime horaire;
+    protected LocalDateTime horaire;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
