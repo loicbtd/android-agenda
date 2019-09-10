@@ -22,7 +22,7 @@ import ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur.ControleurAgenda;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 
 //TODO : OK
-public class Agenda extends AppCompatActivity implements VueAgenda{
+public class Agenda extends AppCompatActivity implements VueAgenda {
 
     protected List<Devoir> listeDevoir;
     protected ControleurAgenda controleurAgenda = new ControleurAgenda(this);
@@ -38,7 +38,7 @@ public class Agenda extends AppCompatActivity implements VueAgenda{
 
         vueAgendaActionNaviguerAjouterDevoir.setOnClickListener(arg0 ->
             controleurAgenda.actionNaviguerAjouterDevoir());
-        
+
         controleurAgenda.onCreate(getApplicationContext());
     }
 

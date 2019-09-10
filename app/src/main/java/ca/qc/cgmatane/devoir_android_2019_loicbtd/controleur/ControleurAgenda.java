@@ -35,8 +35,8 @@ public class ControleurAgenda implements Controleur{
     public void onCreate(Context applicationContext) {
         BaseDeDonnees.getInstance(applicationContext);
         accesseurDevoir = DevoirDAO.getInstance();
-//        vue.setListeDevoir(accesseurDevoir.recupererListeDevoir());
-//        vue.afficherTousLesDevoirs();
+        vue.setListeDevoir(accesseurDevoir.recupererListeDevoir());
+        vue.afficherTousLesDevoirs();
     }
 
     @Override
