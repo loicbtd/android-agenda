@@ -57,7 +57,7 @@ public class Devoir {
         devoirPourAdapteur.put("id_devoir",String.valueOf(this.id_devoir));
         devoirPourAdapteur.put("matiere",this.matiere);
         devoirPourAdapteur.put("sujet",this.sujet);
-//        devoirPourAdapteur.put("horaire",this.horaire.format(formateur));
+        devoirPourAdapteur.put("horaire",this.horaire.format(formateur));
 
         return devoirPourAdapteur;
     }

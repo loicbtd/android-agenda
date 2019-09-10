@@ -82,7 +82,6 @@ public class DevoirDAO implements DevoirSQL {
         DateTimeFormatter formateur = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String horaire = devoir.getHoraire().format(formateur);
         sqLiteStatement.bindString(3, horaire);
-
         sqLiteStatement.execute();
     }
 
