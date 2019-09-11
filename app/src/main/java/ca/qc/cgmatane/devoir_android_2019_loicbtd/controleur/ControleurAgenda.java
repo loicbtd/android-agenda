@@ -1,13 +1,19 @@
 package ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.BaseDeDonnees;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
+import ca.qc.cgmatane.devoir_android_2019_loicbtd.util.EcouteurAlarme;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.vue.VueAgenda;
+
+import static android.content.Context.ALARM_SERVICE;
 
 // TODO: OK
 public class ControleurAgenda implements Controleur {
@@ -37,6 +43,20 @@ public class ControleurAgenda implements Controleur {
         accesseurDevoir = DevoirDAO.getInstance();
         vue.setListeDevoir(accesseurDevoir.recupererListeDevoir());
         vue.afficherTousLesDevoirs();
+
+        AlarmManager alarmManager= (AlarmManager) applicationContext.getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(applicationContext, EcouteurAlarme.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis()+5*1000,
+                pendingIntent
+        );
     }
 
     @Override
