@@ -23,22 +23,36 @@ import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 
 //public class ModifierDevoir extends AppCompatActivity implements View.OnClickListener {
-public class ModifierDevoir extends AppCompatActivity implements VueModifierDevoir {
+public class ModifierDevoir extends AppCompatActivity implements VueModifierDevoir, View.OnClickListener {
 
-    protected Devoir devoir;
     protected EditText vueModifierDevoirChampSujet;
     protected EditText vueModifierDevoirChampMatiere;
     protected LocalDateTime horaire;
+
+    protected Button vueModifierDevoirActionChoisirHoraire;
+    protected TimePickerDialog selectionneurHoraire;
+    protected DatePickerDialog selectionneurDate;
+
     protected ControleurModifierDevoir controleurModifierDevoir = new ControleurModifierDevoir(this);
     protected String idDevoirParametre;
+    protected Devoir devoir;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.vue_modifier_devoir);
 
+        Bundle parametres = this.getIntent().getExtras();
+        idDevoirParametre = (String) parametres.get(Devoir.CLE_ID_DEVOIR);
+
+        controleurModifierDevoir.onCreate(getApplicationContext());
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void enregistrerDevoir() {
         devoir.setMatiere(vueModifierDevoirChampMatiere.getText().toString());
         devoir.setSujet(vueModifierDevoirChampSujet.getText().toString());
-        horaire = LocalDateTime.now();
         devoir.setHoraire(horaire);
         controleurModifierDevoir.actionEnregistrerDevoir(devoir);
     }
@@ -50,12 +64,18 @@ public class ModifierDevoir extends AppCompatActivity implements VueModifierDevo
         vueModifierDevoirChampSujet = (EditText)findViewById(R.id.vue_modifier_devoir_champ_sujet);
         vueModifierDevoirChampMatiere.setText(devoir.getMatiere());
         vueModifierDevoirChampSujet.setText(devoir.getSujet());
+        horaire = devoir.getHoraire();
 
         Button vueModifierDevoirActionEnregistrer =
                 (Button)findViewById(R.id.vue_modifier_devoir_action_enregistrer);
-
         vueModifierDevoirActionEnregistrer.setOnClickListener(arg0 ->
                 enregistrerDevoir());
+
+        vueModifierDevoirActionChoisirHoraire =
+                (Button)findViewById(R.id.vue_modifier_devoir_action_choisir_horaire);
+        DateTimeFormatter formateur = DateTimeFormatter.ofPattern("dd/MM/YYYY à HH:mm");
+        vueModifierDevoirActionChoisirHoraire.setText(horaire.format(formateur));
+        vueModifierDevoirActionChoisirHoraire.setOnClickListener(this);
     }
 
     @Override
@@ -79,5 +99,23 @@ public class ModifierDevoir extends AppCompatActivity implements VueModifierDevo
                 "Le devoir n'est pas valide.",
                 Toast.LENGTH_SHORT);
         message.show();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onClick(View view) {
+        selectionneurHoraire = new TimePickerDialog(this, (view1, h, m) -> {
+            horaire = LocalDateTime.of(horaire.getYear(),
+                    horaire.getMonthValue(), horaire.getDayOfMonth(), h, m);
+            DateTimeFormatter formateur = DateTimeFormatter.ofPattern("dd/MM/YYYY à HH:mm");
+            vueModifierDevoirActionChoisirHoraire.setText(horaire.format(formateur));
+        }, horaire.getHour(), horaire.getMinute(), true);
+
+        selectionneurDate = new DatePickerDialog(this, (view2, a, m, j) -> {
+            horaire = LocalDateTime.of(a, m+1, j, horaire.getHour(), horaire.getMinute());
+            selectionneurHoraire.show();
+        }, horaire.getYear(), horaire.getMonthValue()-1, horaire.getDayOfMonth());
+
+        selectionneurDate.show();
     }
 }

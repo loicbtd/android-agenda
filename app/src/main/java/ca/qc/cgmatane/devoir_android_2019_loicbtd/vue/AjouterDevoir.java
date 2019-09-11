@@ -88,12 +88,12 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
                     horaire.getMonthValue(), horaire.getDayOfMonth(), h, m);
             DateTimeFormatter formateur = DateTimeFormatter.ofPattern("dd/MM/YYYY à HH:mm");
             vueAjouterDevoirActionChoisirHoraire.setText(horaire.format(formateur));
-        }, horaire.getHour(), horaire.getMinute(), false);
+        }, horaire.getHour(), horaire.getMinute(), true);
 
         selectionneurDate = new DatePickerDialog(this, (view2, a, m, j) -> {
-            horaire = LocalDateTime.of(a, m, j, horaire.getHour(), horaire.getMinute());
+            horaire = LocalDateTime.of(a, m+1, j, horaire.getHour(), horaire.getMinute());
             selectionneurHoraire.show();
-        }, horaire.getYear(), horaire.getMonthValue(), horaire.getDayOfMonth());
+        }, horaire.getYear(), horaire.getMonthValue()-1, horaire.getDayOfMonth());
 
         selectionneurDate.show();
     }
