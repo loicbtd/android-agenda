@@ -8,8 +8,14 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.BaseDeDonnees;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
+import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.util.EcouteurAlarme;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.vue.VueAgenda;
 
@@ -45,18 +51,33 @@ public class ControleurAgenda implements Controleur {
         vue.afficherTousLesDevoirs();
 
         AlarmManager alarmManager= (AlarmManager) applicationContext.getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(applicationContext, EcouteurAlarme.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                applicationContext,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis()+5*1000,
-                pendingIntent
-        );
+        Intent intent;
+        PendingIntent pendingIntent;
+        Duration duree;
+        int difference;
+
+        List<Devoir> listeDevoir = accesseurDevoir.recupererListeDevoir();
+        for(Devoir devoir:listeDevoir) {
+
+            duree = Duration.between(LocalDateTime.now().minusHours(4), devoir.getHoraire());
+            difference = (int)duree.toMillis();
+
+            if(difference > 0) {
+                intent = new Intent(applicationContext, EcouteurAlarme.class);
+                intent.putExtra(Devoir.CLE_ID_DEVOIR,devoir.getId_devoir());
+                pendingIntent = PendingIntent.getBroadcast(
+                        applicationContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+                alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        System.currentTimeMillis()+difference,
+                        pendingIntent
+                );
+            }
+        }
     }
 
     @Override

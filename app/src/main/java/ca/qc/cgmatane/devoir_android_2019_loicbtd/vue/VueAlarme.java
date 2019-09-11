@@ -2,10 +2,9 @@ package ca.qc.cgmatane.devoir_android_2019_loicbtd.vue;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 
-public interface VueModifierDevoir {
+public interface VueAlarme {
     void afficherDevoir();
-    void setDevoir(Devoir devoir);
     String getIdDevoirParametre();
+    void setDevoir(Devoir devoir);
     void naviguerAgenda();
-    void afficherErreur();
 }

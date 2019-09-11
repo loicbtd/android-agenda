@@ -37,7 +37,7 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_ajouter_devoir);
 
-        vueAjouterDevoirChampMatiere = (EditText)findViewById(R.id.vue_ajouter_devoir_champ_sujet);
+        vueAjouterDevoirChampMatiere = (EditText)findViewById(R.id.vue_ajouter_devoir_champ_matiere);
         vueAjouterDevoirChampSujet = (EditText)findViewById(R.id.vue_ajouter_devoir_champ_sujet);
         horaire = LocalDateTime.now();
 

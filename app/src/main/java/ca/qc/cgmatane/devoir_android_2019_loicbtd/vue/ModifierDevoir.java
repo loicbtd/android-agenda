@@ -61,9 +61,11 @@ public class ModifierDevoir extends AppCompatActivity implements VueModifierDevo
     @Override
     public void afficherDevoir() {
         vueModifierDevoirChampMatiere = (EditText)findViewById(R.id.vue_modifier_devoir_champ_matiere);
-        vueModifierDevoirChampSujet = (EditText)findViewById(R.id.vue_modifier_devoir_champ_sujet);
         vueModifierDevoirChampMatiere.setText(devoir.getMatiere());
+
+        vueModifierDevoirChampSujet = (EditText)findViewById(R.id.vue_modifier_devoir_champ_sujet);
         vueModifierDevoirChampSujet.setText(devoir.getSujet());
+
         horaire = devoir.getHoraire();
 
         Button vueModifierDevoirActionEnregistrer =

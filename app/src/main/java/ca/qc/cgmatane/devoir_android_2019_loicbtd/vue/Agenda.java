@@ -21,7 +21,6 @@ import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur.ControleurAgenda;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 
-//TODO : OK
 public class Agenda extends AppCompatActivity implements VueAgenda {
 
     protected List<Devoir> listeDevoir;
@@ -70,7 +69,7 @@ public class Agenda extends AppCompatActivity implements VueAgenda {
                 this,
                 adapterListeDevoirPourListView(),
                 android.R.layout.two_line_list_item,
-                new String[] {Devoir.CLE_MATIERE,Devoir.CLE_SUJET},
+                new String[] {Devoir.CLE_SUJET,Devoir.CLE_HORAIRE},
                 new int[] {android.R.id.text1, android.R.id.text2});
 
         vueAgendaListeDevoir.setAdapter(adapteurVueAgendaListeDevoir);
