@@ -19,7 +19,7 @@ import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.vue.VueAjouterDevoir;
 
 // TODO: OK 3
-public class ControleurAjouterDevoir implements Controleur  {
+public class ControleurAjouterDevoir implements Controleur {
 
     private VueAjouterDevoir vue;
     private DevoirDAO accesseurDevoir;
@@ -68,47 +68,4 @@ public class ControleurAjouterDevoir implements Controleur  {
     @Override
     public void onActivityResult(int activite) {
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void choisirHoraire() {
-        //TODO:
-    }
-
-//    @RequiresApi(api = Build.VERSION_CODES.O) TODO
-//    @Override
-//    public void onClick(View vue) {
-//
-//        selectionneurHoraire = new TimePickerDialog(this,
-//                new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int h, int m) {
-//                        horaire = LocalDateTime.of(horaire.getYear(),
-//                                horaire.getMonthValue(),
-//                                horaire.getDayOfMonth(),
-//                                h,
-//                                m
-//                        );
-//                        DateTimeFormatter formateur =
-//                                DateTimeFormatter.ofPattern("dd/MM/dd à HH:mm");
-//                        vueAjouterDevoirActionChoisirHoraire.setText(horaire.format(formateur));
-//                    }
-//                }, horaire.getHour(), horaire.getMinute(), false);
-//
-//        selectionneurDate = new DatePickerDialog(this,
-//                new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int a, int m, int j) {
-//                        horaire = LocalDateTime.of(a,
-//                                m,
-//                                j,
-//                                horaire.getHour(),
-//                                horaire.getMinute()
-//                        );
-//
-//                        selectionneurHoraire.show();
-//                    }
-//                }, horaire.getYear(), horaire.getMonthValue(), horaire.getDayOfMonth());
-//
-//        selectionneurDate.show();
-//    }
 }

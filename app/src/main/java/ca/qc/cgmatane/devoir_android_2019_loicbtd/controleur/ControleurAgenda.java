@@ -10,7 +10,7 @@ import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.vue.VueAgenda;
 
 // TODO: OK
-public class ControleurAgenda implements Controleur{
+public class ControleurAgenda implements Controleur {
 
     static final public int ACTIVITE_AJOUTER_DEVOIR = 1;
     static final public int ACTIVITE_MODIFIER_DEVOIR = 2;
