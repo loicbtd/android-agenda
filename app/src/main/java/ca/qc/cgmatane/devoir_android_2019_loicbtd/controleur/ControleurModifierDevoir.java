@@ -33,6 +33,7 @@ public class ControleurModifierDevoir implements Controleur {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate(Context applicationContext) {
         BaseDeDonnees.getInstance(applicationContext);

@@ -4,7 +4,7 @@ import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 
 public interface VueAlarme {
     void afficherDevoir();
-    String getIdDevoirParametre();
+    int getIdDevoirParametre();
     void setDevoir(Devoir devoir);
     void naviguerAgenda();
 }

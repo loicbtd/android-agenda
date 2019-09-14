@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur.ControleurAjouterDevoir;
@@ -24,7 +24,7 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
     protected EditText vueAjouterDevoirChampMatiere;
     protected EditText vueAjouterDevoirChampSujet;
     protected LocalDateTime horaire;
-
+    protected boolean alarme_active;
     protected Button vueAjouterDevoirActionChoisirHoraire;
     protected TimePickerDialog selectionneurHoraire;
     protected DatePickerDialog selectionneurDate;
@@ -40,6 +40,13 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
         vueAjouterDevoirChampMatiere = (EditText)findViewById(R.id.vue_ajouter_devoir_champ_matiere);
         vueAjouterDevoirChampSujet = (EditText)findViewById(R.id.vue_ajouter_devoir_champ_sujet);
         horaire = LocalDateTime.now();
+        alarme_active = true;
+
+        Switch switchAlarme = (Switch)findViewById(R.id.vue_ajouter_devoir_switch_alarme);
+        switchAlarme.setChecked(true);
+        switchAlarme.setOnCheckedChangeListener(
+                (compoundButton, b) -> alarme_active = b
+        );
 
         Button vueAjouterDevoirActionEnregistrerDevoir =
                 (Button)findViewById(R.id.vue_ajouter_devoir_action_enregistrer);
@@ -74,7 +81,8 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
                 0,
                 vueAjouterDevoirChampMatiere.getText().toString(),
                 vueAjouterDevoirChampSujet.getText().toString(),
-                horaire
+                horaire,
+                alarme_active
         );
         controleurAjouterDevoir.actionEnregistrerDevoir(devoir);
     }
@@ -86,8 +94,7 @@ public class AjouterDevoir extends AppCompatActivity implements VueAjouterDevoir
         selectionneurHoraire = new TimePickerDialog(this, (view1, h, m) -> {
             horaire = LocalDateTime.of(horaire.getYear(),
                     horaire.getMonthValue(), horaire.getDayOfMonth(), h, m);
-            DateTimeFormatter formateur = DateTimeFormatter.ofPattern("dd/MM/YYYY à HH:mm");
-            vueAjouterDevoirActionChoisirHoraire.setText(horaire.format(formateur));
+            vueAjouterDevoirActionChoisirHoraire.setText(horaire.format(Devoir.FORMAT_DATE_AFFICHAGE));
         }, horaire.getHour(), horaire.getMinute(), true);
 
         selectionneurDate = new DatePickerDialog(this, (view2, a, m, j) -> {

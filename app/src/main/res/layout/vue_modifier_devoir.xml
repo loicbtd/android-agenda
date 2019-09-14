@@ -14,7 +14,7 @@
         android:layout_marginLeft="118dp"
         android:layout_marginEnd="119dp"
         android:layout_marginRight="119dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="124dp"
         android:text="Enregistrer le devoir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,5 +89,15 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <Switch
+        android:id="@+id/vue_modifier_devoir_switch_alarme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alarme"
+        app:layout_constraintBottom_toTopOf="@+id/vue_modifier_devoir_action_enregistrer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vue_modifier_devoir_action_choisir_horaire" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

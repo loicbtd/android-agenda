@@ -9,26 +9,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur.ControleurModifierDevoir;
-import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.DevoirDAO;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 
-//public class ModifierDevoir extends AppCompatActivity implements View.OnClickListener {
 public class ModifierDevoir extends AppCompatActivity implements VueModifierDevoir, View.OnClickListener {
 
     protected EditText vueModifierDevoirChampSujet;
     protected EditText vueModifierDevoirChampMatiere;
     protected LocalDateTime horaire;
-
+    protected boolean alarme_active;
     protected Button vueModifierDevoirActionChoisirHoraire;
     protected TimePickerDialog selectionneurHoraire;
     protected DatePickerDialog selectionneurDate;
@@ -54,6 +50,7 @@ public class ModifierDevoir extends AppCompatActivity implements VueModifierDevo
         devoir.setMatiere(vueModifierDevoirChampMatiere.getText().toString());
         devoir.setSujet(vueModifierDevoirChampSujet.getText().toString());
         devoir.setHoraire(horaire);
+        devoir.setAlarme_active(alarme_active);
         controleurModifierDevoir.actionEnregistrerDevoir(devoir);
     }
 
@@ -67,6 +64,13 @@ public class ModifierDevoir extends AppCompatActivity implements VueModifierDevo
         vueModifierDevoirChampSujet.setText(devoir.getSujet());
 
         horaire = devoir.getHoraire();
+        alarme_active = devoir.isAlarme_active();
+
+        Switch switchAlarme = (Switch)findViewById(R.id.vue_modifier_devoir_switch_alarme);
+        switchAlarme.setChecked(alarme_active);
+        switchAlarme.setOnCheckedChangeListener(
+                (compoundButton, b) -> alarme_active = b
+        );
 
         Button vueModifierDevoirActionEnregistrer =
                 (Button)findViewById(R.id.vue_modifier_devoir_action_enregistrer);
@@ -75,8 +79,7 @@ public class ModifierDevoir extends AppCompatActivity implements VueModifierDevo
 
         vueModifierDevoirActionChoisirHoraire =
                 (Button)findViewById(R.id.vue_modifier_devoir_action_choisir_horaire);
-        DateTimeFormatter formateur = DateTimeFormatter.ofPattern("dd/MM/YYYY à HH:mm");
-        vueModifierDevoirActionChoisirHoraire.setText(horaire.format(formateur));
+        vueModifierDevoirActionChoisirHoraire.setText(horaire.format(Devoir.FORMAT_DATE_AFFICHAGE));
         vueModifierDevoirActionChoisirHoraire.setOnClickListener(this);
     }
 
@@ -109,8 +112,7 @@ public class ModifierDevoir extends AppCompatActivity implements VueModifierDevo
         selectionneurHoraire = new TimePickerDialog(this, (view1, h, m) -> {
             horaire = LocalDateTime.of(horaire.getYear(),
                     horaire.getMonthValue(), horaire.getDayOfMonth(), h, m);
-            DateTimeFormatter formateur = DateTimeFormatter.ofPattern("dd/MM/YYYY à HH:mm");
-            vueModifierDevoirActionChoisirHoraire.setText(horaire.format(formateur));
+            vueModifierDevoirActionChoisirHoraire.setText(horaire.format(Devoir.FORMAT_DATE_AFFICHAGE));
         }, horaire.getHour(), horaire.getMinute(), true);
 
         selectionneurDate = new DatePickerDialog(this, (view2, a, m, j) -> {

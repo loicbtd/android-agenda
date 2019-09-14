@@ -3,18 +3,14 @@ package ca.qc.cgmatane.devoir_android_2019_loicbtd.vue;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.R;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur.ControleurAlarme;
-import ca.qc.cgmatane.devoir_android_2019_loicbtd.controleur.ControleurModifierDevoir;
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.modele.Devoir;
 
 public class Alarme extends AppCompatActivity implements VueAlarme {
@@ -23,18 +19,19 @@ public class Alarme extends AppCompatActivity implements VueAlarme {
     protected TextView vueAlarmeLabelSujet;
     protected TextView vueAlarmeLabelHoraire;
 
-    protected String idDevoirParametre;
+    protected int idDevoirParametre;
     protected Devoir devoir;
 
     protected ControleurAlarme controleurAlarme = new ControleurAlarme(this);
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vue_alarme);
 
         Bundle parametres = this.getIntent().getExtras();
-        idDevoirParametre = (String) parametres.get(Devoir.CLE_ID_DEVOIR);
+        idDevoirParametre = (int) parametres.get(Devoir.CLE_ID_DEVOIR);
 
         controleurAlarme.onCreate(getApplicationContext());
     }
@@ -49,22 +46,21 @@ public class Alarme extends AppCompatActivity implements VueAlarme {
         vueAlarmeLabelMatiere.setText(devoir.getMatiere());
         vueAlarmeLabelSujet.setText(devoir.getSujet());
 
-        DateTimeFormatter formateur = DateTimeFormatter.ofPattern("dd/MM/YYYY à HH:mm");
-        vueAlarmeLabelSujet.setText(devoir.getHoraire().format(formateur));
+        vueAlarmeLabelHoraire.setText(devoir.getHoraire().format(Devoir.FORMAT_DATE_AFFICHAGE));
 
         Button vueAlarmeActionRepeter = (Button)findViewById(R.id.vue_alarme_action_repeter);
         vueAlarmeActionRepeter.setOnClickListener(
-                view -> repeterAlarme()
+                view -> controleurAlarme.repeterAlarme(getApplicationContext())
         );
 
         Button vueAlarmeActionArreter = (Button)findViewById(R.id.vue_alarme_action_arreter);
         vueAlarmeActionArreter.setOnClickListener(
-                view -> arreterAlarme()
+                view -> controleurAlarme.arreterAlarme()
         );
     }
 
     @Override
-    public String getIdDevoirParametre() {
+    public int getIdDevoirParametre() {
         return this.idDevoirParametre;
     }
 
@@ -76,13 +72,6 @@ public class Alarme extends AppCompatActivity implements VueAlarme {
     @Override
     public void naviguerAgenda() {
         this.finish();
-    }
-
-    private void repeterAlarme() {
-        naviguerAgenda();
-    }
-
-    private void arreterAlarme() {
-        naviguerAgenda();
+        startActivity(new Intent(getApplicationContext(), Agenda.class));
     }
 }

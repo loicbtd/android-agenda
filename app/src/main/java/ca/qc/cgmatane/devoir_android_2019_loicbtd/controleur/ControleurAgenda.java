@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.qc.cgmatane.devoir_android_2019_loicbtd.donnee.BaseDeDonnees;
@@ -21,11 +22,14 @@ import ca.qc.cgmatane.devoir_android_2019_loicbtd.vue.VueAgenda;
 
 import static android.content.Context.ALARM_SERVICE;
 
-// TODO: OK
 public class ControleurAgenda implements Controleur {
 
     static final public int ACTIVITE_AJOUTER_DEVOIR = 1;
     static final public int ACTIVITE_MODIFIER_DEVOIR = 2;
+    static final public int ACTIVITE_AFFICHER_ALARME = 3;
+
+    private AlarmManager alarmManager;
+    private ArrayList<PendingIntent> pendingIntentList;
 
     private VueAgenda vue;
     private DevoirDAO accesseurDevoir;
@@ -49,35 +53,8 @@ public class ControleurAgenda implements Controleur {
         accesseurDevoir = DevoirDAO.getInstance();
         vue.setListeDevoir(accesseurDevoir.recupererListeDevoir());
         vue.afficherTousLesDevoirs();
-
-        AlarmManager alarmManager= (AlarmManager) applicationContext.getSystemService(ALARM_SERVICE);
-        Intent intent;
-        PendingIntent pendingIntent;
-        Duration duree;
-        int difference;
-
-        List<Devoir> listeDevoir = accesseurDevoir.recupererListeDevoir();
-        for(Devoir devoir:listeDevoir) {
-
-            duree = Duration.between(LocalDateTime.now().minusHours(4), devoir.getHoraire());
-            difference = (int)duree.toMillis();
-
-            if(difference > 0) {
-                intent = new Intent(applicationContext, EcouteurAlarme.class);
-                intent.putExtra(Devoir.CLE_ID_DEVOIR,devoir.getId_devoir());
-                pendingIntent = PendingIntent.getBroadcast(
-                        applicationContext,
-                        0,
-                        intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-                alarmManager.set(
-                        AlarmManager.RTC_WAKEUP,
-                        System.currentTimeMillis()+difference,
-                        pendingIntent
-                );
-            }
-        }
+        alarmManager = (AlarmManager) applicationContext.getSystemService(ALARM_SERVICE);
+        pendingIntentList = new ArrayList<>();
     }
 
     @Override
@@ -108,6 +85,58 @@ public class ControleurAgenda implements Controleur {
                 vue.setListeDevoir(accesseurDevoir.recupererListeDevoir());
                 vue.afficherTousLesDevoirs();
                 break;
+
+            case ACTIVITE_AFFICHER_ALARME:
+                vue.setListeDevoir(accesseurDevoir.recupererListeDevoir());
+                vue.afficherTousLesDevoirs();
+                break;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void activerLesAlarmes(Context applicationContext) {
+
+        if (pendingIntentList != null) {
+            for (PendingIntent pendingIntent: pendingIntentList) {
+                alarmManager.cancel(pendingIntent);
+            }
+        }
+
+        Intent intent;
+        PendingIntent pendingIntent;
+
+        Duration duree;
+        int difference;
+
+        List<Devoir> listeDevoir = accesseurDevoir.recupererListeDevoir();
+
+        for(Devoir devoir:listeDevoir) {
+            if (devoir.isAlarme_active()) {
+
+                duree = Duration.between(LocalDateTime.now(), devoir.getHoraire());
+                difference = (int)duree.toMillis();
+
+                if(difference > 0) {
+
+                    intent = new Intent(applicationContext, EcouteurAlarme.class);
+                    intent.putExtra(Devoir.CLE_ID_DEVOIR,devoir.getId_devoir());
+
+                    pendingIntent = PendingIntent.getBroadcast(
+                            applicationContext,
+                            0,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+                    alarmManager.set(
+                            AlarmManager.RTC_WAKEUP,
+                            System.currentTimeMillis()+difference,
+                            pendingIntent
+                    );
+
+                    pendingIntentList.add(pendingIntent);
+                }
+            }
         }
     }
 }

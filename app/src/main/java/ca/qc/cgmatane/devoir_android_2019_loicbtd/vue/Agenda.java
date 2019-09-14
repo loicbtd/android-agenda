@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -50,8 +48,7 @@ public class Agenda extends AppCompatActivity implements VueAgenda {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private List<HashMap<String, String>> adapterListeDevoirPourListView() {
-        List<HashMap<String, String>> listeDevoirPourListView =
-                new ArrayList<>();
+        List<HashMap<String, String>> listeDevoirPourListView = new ArrayList<>();
 
         for(Devoir devoir: listeDevoir) {
             listeDevoirPourListView.add(devoir.obtenirDevoirPourAdapteur());
@@ -86,6 +83,7 @@ public class Agenda extends AppCompatActivity implements VueAgenda {
                     controleurAgenda.actionNaviguerModifierDevoir(devoir.get(Devoir.CLE_ID_DEVOIR));
                 }
         );
+        controleurAgenda.activerLesAlarmes(getApplicationContext());
     }
 
     @Override
@@ -99,6 +97,7 @@ public class Agenda extends AppCompatActivity implements VueAgenda {
         startActivityForResult(intentionNaviguerAjouterDevoir, ControleurAgenda.ACTIVITE_AJOUTER_DEVOIR);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void naviguerModifierDevoir(String idDevoir) {
         Intent intentionNaviguerModifierDevoir = new Intent(
